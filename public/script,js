@@ -6,25 +6,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const togglePassword = document.getElementById("togglePassword");
   const passwordInput = document.getElementById("passwordInput");
 
-  // 1. Logika Toggle Intip Password
+  // 1. Logika Toggle Icon Mata Password
   if (togglePassword && passwordInput) {
     togglePassword.addEventListener("click", () => {
-      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-      passwordInput.setAttribute("type", type);
-      togglePassword.querySelector("i").classList.toggle("fa-eye");
-      togglePassword.querySelector("i").classList.toggle("fa-eye-slash");
+      const isPassword = passwordInput.getAttribute("type") === "password";
+      
+      // Ubah tipe input
+      passwordInput.setAttribute("type", isPassword ? "text" : "password");
+      
+      // Ubah icon: Jika terbuka pakai fa-eye-slash, jika tertutup pakai fa-eye
+      const icon = togglePassword.querySelector("i");
+      if (icon) {
+        if (isPassword) {
+          icon.classList.remove("fa-eye");
+          icon.classList.add("fa-eye-slash");
+        } else {
+          icon.classList.remove("fa-eye-slash");
+          icon.classList.add("fa-eye");
+        }
+      }
     });
   }
 
-  // 2. Logika Submit Login
+  // 2. Logika Submit Login & Display Notifikasi Error
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault(); // Mencegah halaman refresh otomatis
+      e.preventDefault(); // Menahan refresh halaman
 
       const nis = document.getElementById("nisInput").value.trim();
       const password = passwordInput.value.trim();
 
-      errorAlert.style.display = "none";
+      // Sembunyikan alert error sebelumnya
+      if (errorAlert) {
+        errorAlert.style.display = "none";
+        errorAlert.innerText = "";
+      }
 
       try {
         const response = await fetch("/api/login", {
@@ -36,16 +52,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await response.json();
 
         if (response.ok && data.success) {
-          // Sembunyikan Form Login & Tampilkan Dashboard
-          authContainer.style.display = "none";
-          appLayout.classList.add("active");
+          // Login Berhasil: Pindah ke Dashboard
+          if (authContainer) authContainer.style.display = "none";
+          if (appLayout) appLayout.classList.add("active");
         } else {
-          errorAlert.innerText = data.message || "NIS atau Password salah!";
-          errorAlert.style.display = "block";
+          // Login Gagal: Tampilkan Notifikasi Error spesifik (ID/PW Salah)
+          if (errorAlert) {
+            errorAlert.innerText = data.message || "ID atau Password salah!";
+            errorAlert.style.display = "block";
+          }
         }
       } catch (err) {
-        errorAlert.innerText = "Gagal terhubung ke server!";
-        errorAlert.style.display = "block";
+        if (errorAlert) {
+          errorAlert.innerText = "Gagal terhubung ke server!";
+          errorAlert.style.display = "block";
+        }
       }
     });
   }
@@ -61,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const message = chatInput.value.trim();
       if (!message) return;
 
-      // Tampilkan pesan user
       const userDiv = document.createElement("div");
       userDiv.className = "message user";
       userDiv.innerText = message;
@@ -69,7 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
       chatInput.value = "";
       chatMessages.scrollTop = chatMessages.scrollHeight;
 
-      // Pesan loading bot
       const botDiv = document.createElement("div");
       botDiv.className = "message bot";
       botDiv.innerText = "Sedang mengetik...";
