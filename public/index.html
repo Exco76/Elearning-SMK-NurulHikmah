@@ -1,97 +1,134 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIM Akademik & E-Learning SMK Nurul Hikmah</title>
-  
-  <!-- Font & Icon -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
-  <!-- Pemanggilan File CSS Terpisah -->
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIM Akademik & E-Learning SMK Nurul Hikmah</title>
 
-  <!-- HALAMAN LOGIN -->
-  <div id="authContainer" class="auth-container">
-    <div class="auth-card">
-      <div class="auth-header">
-        <i class="fa-solid fa-graduation-cap"></i>
-        <h2>SMK Nurul Hikmah</h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">Login Akun</p>
-      </div>
+    <!-- Font & Icon -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
-      <div id="errorAlert" class="error-alert">Gagal terhubung ke server!</div>
-
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="nisInput">ID / NIS</label>
-          <input type="text" id="nisInput" placeholder="S2304030004" required />
+    <!-- Pemanggilan File CSS Terpisah -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- HALAMAN LOGIN -->
+    <div id="authContainer" class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <h2>SMK Nurul Hikmah</h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted)">Login Akun</p>
         </div>
 
-        <div class="form-group">
-          <label for="passwordInput">Password</label>
-          <div class="password-wrapper">
-            <input type="password" id="passwordInput" placeholder="yy/mm/dd" required />
-            <span id="togglePassword" class="toggle-password">
-              <i class="fa-regular fa-eye"></i>
-            </span>
+        <!-- Notifikasi Error (Kosong secara default, hanya muncul saat dipicu JavaScript) -->
+        <div id="errorAlert" class="error-alert"></div>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="nisInput">ID / NIS</label>
+            <input
+              type="text"
+              id="nisInput"
+              placeholder="S2304030004"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="passwordInput"
+                placeholder="yy/mm/dd"
+                required
+              />
+              <span id="togglePassword" class="toggle-password">
+                <!-- Icon bawaan awal pakai fa-eye-slash (mata tersilang/tertutup) -->
+                <i class="fa-regular fa-eye-slash"></i>
+              </span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- DASHBOARD UTAMA -->
+    <div id="appLayout" class="app-layout">
+      <!-- Sidebar Kiri -->
+      <aside class="sidebar">
+        <div>
+          <div class="brand">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span class="brand-title">SMK Nurul Hikmah</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item active">
+              <a href="#"><i class="fa-solid fa-house"></i> Beranda</a>
+            </li>
+            <li class="nav-item">
+              <a href="#"><i class="fa-solid fa-book"></i> Mata Pelajaran</a>
+            </li>
+            <li class="nav-item">
+              <a href="#"><i class="fa-solid fa-clipboard-list"></i> Tugas</a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Konten Utama -->
+      <main class="main-content">
+        <div class="view-section active">
+          <div class="card">
+            <h3>Selamat Datang di E-Learning SMK Nurul Hikmah</h3>
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 0.9rem;
+                margin-top: 6px;
+              "
+            >
+              Pilih materi pelajaran atau gunakan fitur HikmahBot AI di sebelah
+              kanan untuk membantu belajar.
+            </p>
           </div>
         </div>
+      </main>
 
-        <button type="submit" class="btn-primary">Login</button>
-      </form>
+      <!-- Sidebar Kanan (HikmahBot AI) -->
+      <aside class="chat-sidebar">
+        <div class="chat-header">
+          <i class="fa-solid fa-robot" style="color: var(--primary)"></i>
+          <strong>HikmahBot AI</strong>
+        </div>
+        <div id="chatMessages" class="chat-messages">
+          <div class="message bot">
+            Halo! Ada yang bisa saya bantu terkait pelajaran hari ini?
+          </div>
+        </div>
+        <form id="chatForm" class="chat-input">
+          <input
+            type="text"
+            id="chatInput"
+            placeholder="Tanyakan sesuatu..."
+            required
+          />
+          <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </aside>
     </div>
-  </div>
 
-  <!-- DASHBOARD UTAMA -->
-  <div id="appLayout" class="app-layout">
-    <!-- Sidebar Kiri -->
-    <aside class="sidebar">
-      <div>
-        <div class="brand">
-          <i class="fa-solid fa-graduation-cap"></i>
-          <span class="brand-title">SMK Nurul Hikmah</span>
-        </div>
-        <ul class="nav-list">
-          <li class="nav-item active"><a href="#"><i class="fa-solid fa-house"></i> Beranda</a></li>
-          <li class="nav-item"><a href="#"><i class="fa-solid fa-book"></i> Mata Pelajaran</a></li>
-          <li class="nav-item"><a href="#"><i class="fa-solid fa-clipboard-list"></i> Tugas</a></li>
-        </ul>
-      </div>
-    </aside>
-
-    <!-- Konten Utama -->
-    <main class="main-content">
-      <div class="view-section active">
-        <div class="card">
-          <h3>Selamat Datang di E-Learning SMK Nurul Hikmah</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">
-            Pilih materi pelajaran atau gunakan fitur HikmahBot AI di sebelah kanan untuk membantu belajar.
-          </p>
-        </div>
-      </div>
-    </main>
-
-    <!-- Sidebar Kanan (HikmahBot AI) -->
-    <aside class="chat-sidebar">
-      <div class="chat-header">
-        <i class="fa-solid fa-robot" style="color: var(--primary);"></i>
-        <strong>HikmahBot AI</strong>
-      </div>
-      <div id="chatMessages" class="chat-messages">
-        <div class="message bot">Halo! Ada yang bisa saya bantu terkait pelajaran hari ini?</div>
-      </div>
-      <form id="chatForm" class="chat-input">
-        <input type="text" id="chatInput" placeholder="Tanyakan sesuatu..." required />
-        <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
-      </form>
-    </aside>
-  </div>
-
-  <!-- Script Logika Frontend -->
-  <script src="script.js"></script>
-</body>
+    <!-- Script Logika Frontend -->
+    <script src="script.js"></script>
+  </body>
 </html>
