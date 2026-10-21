@@ -1,556 +1,97 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIM Akademik & E-Learning SMK Nurul Hikmah</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <style>
-      :root {
-        --primary: #1e40af;
-        --primary-hover: #1d4ed8;
-        --primary-light: #eff6ff;
-        --danger: #dc2626;
-        --success: #16a34a;
-        --bg: #f8fafc;
-        --surface: #ffffff;
-        --text-main: #0f172a;
-        --text-muted: #64748b;
-        --border: #e2e8f0;
-        --radius: 12px;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIM Akademik & E-Learning SMK Nurul Hikmah</title>
+  
+  <!-- Font & Icon -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Pemanggilan File CSS Terpisah -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: "Plus Jakarta Sans", sans-serif;
-      }
-      body {
-        background-color: var(--bg);
-        color: var(--text-main);
-        min-height: 100vh;
-      }
-
-      .auth-container {
-        display: flex;
-        min-height: 100vh;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
-        background: #e2e8f0;
-        padding: 20px;
-      }
-      .auth-card {
-        background: var(--surface);
-        padding: 32px;
-        border-radius: 16px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 420px;
-      }
-      .auth-header {
-        text-align: center;
-        margin-bottom: 20px;
-      }
-      .auth-header i {
-        font-size: 2.2rem;
-        color: var(--primary);
-        margin-bottom: 6px;
-      }
-
-      .form-group {
-        margin-bottom: 14px;
-        text-align: left;
-      }
-      .form-group label {
-        display: block;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-bottom: 5px;
-        color: var(--text-muted);
-      }
-      .form-group input {
-        width: 100%;
-        padding: 10px 14px;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        outline: none;
-        font-size: 0.9rem;
-        background: #fff !important;
-        color: #000 !important;
-      }
-
-      /* STYLE UNTUK FIELD PASSWORD + IKON MATA */
-      .password-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-      }
-      .password-wrapper input {
-        padding-right: 40px !important;
-      }
-      .toggle-password {
-        position: absolute;
-        right: 12px;
-        cursor: pointer;
-        color: var(--text-muted);
-        font-size: 0.95rem;
-        user-select: none;
-        transition: color 0.2s;
-      }
-      .toggle-password:hover {
-        color: var(--primary);
-      }
-
-      .btn-primary {
-        width: 100%;
-        padding: 11px;
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: 0.2s;
-      }
-      .btn-primary:hover {
-        background: var(--primary-hover);
-      }
-
-      .error-alert {
-        background: #fee2e2;
-        color: #991b1b;
-        padding: 10px;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        margin-bottom: 14px;
-        display: none;
-        text-align: center;
-        font-weight: 600;
-        border: 1px solid #fca5a5;
-      }
-
-      /* LAYOUT DASHBOARD UTAMA */
-      .app-layout {
-        display: none;
-        height: 100vh;
-      }
-      .app-layout.active {
-        display: flex !important;
-      }
-
-      .sidebar {
-        width: 260px;
-        background: var(--surface);
-        border-right: 1px solid var(--border);
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-        justify-content: space-between;
-      }
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 24px;
-      }
-      .brand i {
-        font-size: 1.5rem;
-        color: var(--primary);
-      }
-      .brand-title {
-        font-weight: 700;
-        font-size: 1rem;
-        color: var(--primary);
-      }
-
-      .nav-list {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        overflow-y: auto;
-      }
-      .nav-item a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 9px 12px;
-        color: var(--text-muted);
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        cursor: pointer;
-      }
-      .nav-item.active a,
-      .nav-item a:hover {
-        background: var(--primary-light);
-        color: var(--primary);
-      }
-
-      .main-content {
-        flex: 1;
-        padding: 24px;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-      .view-section {
-        display: none;
-        flex-direction: column;
-        gap: 16px;
-      }
-      .view-section.active {
-        display: flex !important;
-      }
-
-      .card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        padding: 20px;
-        border-radius: var(--radius);
-      }
-
-      .chat-sidebar {
-        width: 310px;
-        background: var(--surface);
-        border-left: 1px solid var(--border);
-        display: flex;
-        flex-direction: column;
-      }
-      .chat-header {
-        padding: 14px;
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background: #fafafa;
-      }
-      .chat-messages {
-        flex: 1;
-        padding: 14px;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .message {
-        max-width: 85%;
-        padding: 10px 12px;
-        border-radius: 12px;
-        font-size: 0.84rem;
-        line-height: 1.4;
-      }
-      .message.bot {
-        background: #f1f5f9;
-        align-self: flex-start;
-      }
-      .message.user {
-        background: var(--primary);
-        color: white;
-        align-self: flex-end;
-      }
-      .chat-input {
-        padding: 10px;
-        border-top: 1px solid var(--border);
-        display: flex;
-        gap: 6px;
-      }
-      .chat-input input {
-        flex: 1;
-        padding: 8px 12px;
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        outline: none;
-        font-size: 0.85rem;
-      }
-      .chat-input button {
-        width: 34px;
-        height: 34px;
-        border: none;
-        background: var(--primary);
-        color: white;
-        border-radius: 50%;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- ================= 1. HALAMAN LOGIN ================= -->
-    <div id="auth-container" class="auth-container">
-      <div id="card-login" class="auth-card">
-        <div class="auth-header">
-          <i class="fa-solid fa-graduation-cap"></i>
-          <h2>SMK Nurul Hikmah</h2>
-          <p style="font-size: 0.85rem; color: var(--text-muted)">Login Akun</p>
-        </div>
-
-        <!-- Pesan Error -->
-        <div id="login-error" class="error-alert"></div>
-
-        <form onsubmit="handleLoginSubmit(event)">
-          <div class="form-group">
-            <label>ID / NIS</label>
-            <input
-              type="text"
-              id="usernameInput"
-              placeholder="Contoh: S2304030004"
-              required
-            />
-          </div>
-
-          <!-- Field Password dengan Ikon Mata -->
-          <div class="form-group">
-            <label>Password</label>
-            <div class="password-wrapper">
-              <input
-                type="password"
-                id="passwordInput"
-                placeholder="Contoh: yy/mm/dd"
-                required
-              />
-              <i
-                class="fa-solid fa-eye toggle-password"
-                id="eyeIcon"
-                onclick="togglePasswordVisibility()"
-              ></i>
-            </div>
-          </div>
-
-          <button type="submit" class="btn-primary" style="margin-top: 10px">
-            Login
-          </button>
-        </form>
+  <!-- HALAMAN LOGIN -->
+  <div id="authContainer" class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <h2>SMK Nurul Hikmah</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Login Akun</p>
       </div>
+
+      <div id="errorAlert" class="error-alert">Gagal terhubung ke server!</div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="nisInput">ID / NIS</label>
+          <input type="text" id="nisInput" placeholder="S2304030004" required />
+        </div>
+
+        <div class="form-group">
+          <label for="passwordInput">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="passwordInput" placeholder="yy/mm/dd" required />
+            <span id="togglePassword" class="toggle-password">
+              <i class="fa-regular fa-eye"></i>
+            </span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
     </div>
+  </div>
 
-    <!-- ================= 2. DASHBOARD APLIKASI ================= -->
-    <div id="app-layout" class="app-layout">
-      <aside class="sidebar">
-        <div>
-          <div class="brand">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span class="brand-title">SIM SMK Nurul Hikmah</span>
-          </div>
-          <ul class="nav-list">
-            <li class="nav-item active">
-              <a onclick="switchSiswaView('p1')"
-                ><i class="fa-solid fa-id-card"></i> Data Profil</a
-              >
-            </li>
-            <li class="nav-item">
-              <a onclick="switchSiswaView('p2')"
-                ><i class="fa-solid fa-envelope"></i> Inbox & Notif</a
-              >
-            </li>
-            <li class="nav-item">
-              <a onclick="switchSiswaView('p3')"
-                ><i class="fa-solid fa-laptop-code"></i> E-Learning & Forum</a
-              >
-            </li>
-          </ul>
+  <!-- DASHBOARD UTAMA -->
+  <div id="appLayout" class="app-layout">
+    <!-- Sidebar Kiri -->
+    <aside class="sidebar">
+      <div>
+        <div class="brand">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span class="brand-title">SMK Nurul Hikmah</span>
         </div>
-        <div class="nav-item">
-          <a onclick="handleLogout()" style="color: var(--danger)"
-            ><i class="fa-solid fa-right-from-bracket"></i> Logout</a
-          >
+        <ul class="nav-list">
+          <li class="nav-item active"><a href="#"><i class="fa-solid fa-house"></i> Beranda</a></li>
+          <li class="nav-item"><a href="#"><i class="fa-solid fa-book"></i> Mata Pelajaran</a></li>
+          <li class="nav-item"><a href="#"><i class="fa-solid fa-clipboard-list"></i> Tugas</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Konten Utama -->
+    <main class="main-content">
+      <div class="view-section active">
+        <div class="card">
+          <h3>Selamat Datang di E-Learning SMK Nurul Hikmah</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">
+            Pilih materi pelajaran atau gunakan fitur HikmahBot AI di sebelah kanan untuk membantu belajar.
+          </p>
         </div>
-      </aside>
+      </div>
+    </main>
 
-      <main class="main-content">
-        <h3 id="view-title">Dashboard Pengguna</h3>
+    <!-- Sidebar Kanan (HikmahBot AI) -->
+    <aside class="chat-sidebar">
+      <div class="chat-header">
+        <i class="fa-solid fa-robot" style="color: var(--primary);"></i>
+        <strong>HikmahBot AI</strong>
+      </div>
+      <div id="chatMessages" class="chat-messages">
+        <div class="message bot">Halo! Ada yang bisa saya bantu terkait pelajaran hari ini?</div>
+      </div>
+      <form id="chatForm" class="chat-input">
+        <input type="text" id="chatInput" placeholder="Tanyakan sesuatu..." required />
+        <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </aside>
+  </div>
 
-        <div id="v-p1" class="view-section active">
-          <div class="card">
-            <h4><i class="fa-solid fa-user"></i> Data Profil Sesi Aktif</h4>
-            <p style="margin-top: 10px; font-size: 0.95rem; line-height: 1.6">
-              <b>Nama Lengkap:</b> <span id="u-nama">-</span><br />
-              <b>ID / NIS:</b> <span id="u-id">-</span><br />
-              <b>Role Akses:</b>
-              <span
-                id="u-role"
-                style="
-                  text-transform: uppercase;
-                  color: var(--primary);
-                  font-weight: bold;
-                "
-                >-</span
-              ><br />
-              <b>Kelas / Jurusan:</b> <span id="u-kelas">-</span>
-            </p>
-          </div>
-        </div>
-
-        <div id="v-p2" class="view-section">
-          <div class="card">
-            <h4>Pesan / Notifikasi</h4>
-            <p style="margin-top: 8px; color: var(--text-muted)">
-              Tidak ada notifikasi baru hari ini.
-            </p>
-          </div>
-        </div>
-
-        <div id="v-p3" class="view-section">
-          <div class="card">
-            <h4>Portal E-Learning</h4>
-            <p style="margin-top: 8px; color: var(--text-muted)">
-              Selamat datang di portal e-learning interaktif.
-            </p>
-          </div>
-        </div>
-      </main>
-
-      <!-- CHATBOT SIDEBAR -->
-      <aside class="chat-sidebar">
-        <div class="chat-header">
-          <i class="fa-solid fa-robot" style="color: var(--primary)"></i>
-          <div>
-            <h4 style="font-size: 0.88rem">HikmahBot AI</h4>
-            <span style="font-size: 0.72rem; color: var(--success)"
-              >● Online</span
-            >
-          </div>
-        </div>
-        <div class="chat-messages" id="chatBox">
-          <div class="message bot">
-            Halo! Saya HikmahBot AI. Ada yang mau ditanyakan seputar pelajaran
-            SMK?
-          </div>
-        </div>
-        <div class="chat-input">
-          <input
-            type="text"
-            id="userInput"
-            placeholder="Tanya AI..."
-            onkeypress="handleKey(event)"
-          />
-          <button type="button" onclick="sendMessage()">
-            <i class="fa-solid fa-paper-plane"></i>
-          </button>
-        </div>
-      </aside>
-    </div>
-
-    <script>
-      // FUNGSI TOGGLE LIHAT PASSWORD (MATA ON/OFF)
-      function togglePasswordVisibility() {
-        const passInput = document.getElementById("passwordInput");
-        const eyeIcon = document.getElementById("eyeIcon");
-
-        if (passInput.type === "password") {
-          passInput.type = "text";
-          eyeIcon.classList.remove("fa-eye");
-          eyeIcon.classList.add("fa-eye-slash");
-        } else {
-          passInput.type = "password";
-          eyeIcon.classList.remove("fa-eye-slash");
-          eyeIcon.classList.add("fa-eye");
-        }
-      }
-
-      // FUNGSI VERIFIKASI LOGIN STRICT
-      async function handleLoginSubmit(e) {
-        e.preventDefault();
-
-        const userVal = document.getElementById("usernameInput").value.trim();
-        const passVal = document.getElementById("passwordInput").value.trim();
-        const errBox = document.getElementById("login-error");
-
-        errBox.style.display = "none";
-
-        try {
-          const res = await fetch("/api/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username: userVal, password: passVal }),
-          });
-
-          const data = await res.json();
-
-          if (!res.ok) {
-            errBox.innerText = data.error;
-            errBox.style.display = "block";
-            return;
-          }
-
-          document.getElementById("auth-container").style.display = "none";
-          document.getElementById("app-layout").classList.add("active");
-
-          document.getElementById("u-nama").innerText = data.user.nama;
-          document.getElementById("u-id").innerText = data.user.id;
-          document.getElementById("u-role").innerText = data.user.role;
-          document.getElementById("u-kelas").innerText = data.user.kelas;
-        } catch (err) {
-          errBox.innerText = "Gagal terhubung ke server!";
-          errBox.style.display = "block";
-        }
-      }
-
-      function handleLogout() {
-        document.getElementById("app-layout").classList.remove("active");
-        document.getElementById("auth-container").style.display = "flex";
-        document.getElementById("usernameInput").value = "";
-        document.getElementById("passwordInput").value = "";
-        document.getElementById("login-error").style.display = "none";
-
-        // Reset mata ke posisi tertutup
-        const passInput = document.getElementById("passwordInput");
-        const eyeIcon = document.getElementById("eyeIcon");
-        passInput.type = "password";
-        eyeIcon.classList.remove("fa-eye-slash");
-        eyeIcon.classList.add("fa-eye");
-      }
-
-      function switchSiswaView(viewId) {
-        document
-          .querySelectorAll(".view-section")
-          .forEach((el) => el.classList.remove("active"));
-        document.getElementById("v-" + viewId).classList.add("active");
-      }
-
-      async function sendMessage() {
-        const input = document.getElementById("userInput");
-        const chatBox = document.getElementById("chatBox");
-        const text = input.value.trim();
-        if (!text) return;
-
-        chatBox.innerHTML += `<div class="message user">${text}</div>`;
-        input.value = "";
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        const loadingId = "load-" + Date.now();
-        chatBox.innerHTML += `<div class="message bot" id="${loadingId}">Mengetik...</div>`;
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        try {
-          const res = await fetch("/api/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: text }),
-          });
-          const data = await res.json();
-          document.getElementById(loadingId).innerText =
-            data.reply || "Maaf, terjadi kesalahan.";
-        } catch (e) {
-          document.getElementById(loadingId).innerText =
-            "Gagal terhubung ke server.";
-        }
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }
-
-      function handleKey(e) {
-        if (e.key === "Enter") sendMessage();
-      }
-    </script>
-  </body>
+  <!-- Script Logika Frontend -->
+  <script src="script.js"></script>
+</body>
 </html>
