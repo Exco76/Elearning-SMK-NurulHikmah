@@ -1,0 +1,92 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("loginForm");
+  const authContainer = document.getElementById("authContainer");
+  const appLayout = document.getElementById("appLayout");
+  const errorAlert = document.getElementById("errorAlert");
+  const togglePassword = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("passwordInput");
+
+  // 1. Logika Toggle Intip Password
+  if (togglePassword && passwordInput) {
+    togglePassword.addEventListener("click", () => {
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+      togglePassword.querySelector("i").classList.toggle("fa-eye");
+      togglePassword.querySelector("i").classList.toggle("fa-eye-slash");
+    });
+  }
+
+  // 2. Logika Submit Login
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault(); // Mencegah halaman refresh otomatis
+
+      const nis = document.getElementById("nisInput").value.trim();
+      const password = passwordInput.value.trim();
+
+      errorAlert.style.display = "none";
+
+      try {
+        const response = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nis, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          // Sembunyikan Form Login & Tampilkan Dashboard
+          authContainer.style.display = "none";
+          appLayout.classList.add("active");
+        } else {
+          errorAlert.innerText = data.message || "NIS atau Password salah!";
+          errorAlert.style.display = "block";
+        }
+      } catch (err) {
+        errorAlert.innerText = "Gagal terhubung ke server!";
+        errorAlert.style.display = "block";
+      }
+    });
+  }
+
+  // 3. Logika Chatbot AI (HikmahBot)
+  const chatForm = document.getElementById("chatForm");
+  const chatInput = document.getElementById("chatInput");
+  const chatMessages = document.getElementById("chatMessages");
+
+  if (chatForm) {
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      // Tampilkan pesan user
+      const userDiv = document.createElement("div");
+      userDiv.className = "message user";
+      userDiv.innerText = message;
+      chatMessages.appendChild(userDiv);
+      chatInput.value = "";
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Pesan loading bot
+      const botDiv = document.createElement("div");
+      botDiv.className = "message bot";
+      botDiv.innerText = "Sedang mengetik...";
+      chatMessages.appendChild(botDiv);
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message }),
+        });
+        const data = await res.json();
+        botDiv.innerText = data.reply || "Maaf, terjadi kesalahan.";
+      } catch (err) {
+        botDiv.innerText = "Gagal terhubung ke AI server.";
+      }
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+  }
+});
